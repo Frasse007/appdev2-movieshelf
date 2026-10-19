@@ -1,4 +1,28 @@
+import { useEffect, useState } from "react";
+
 function MovieCard({ movie }) {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favoriteMovie')) || [];
+    const isMovieFavorite = favorites.some(fav => fav.id === movie.id);
+    setIsFavorite(isMovieFavorite);
+  }, [movie.id]);
+
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipe')) || [];
+    
+    if (isFavorite) {
+      const updatedFavorites = favorites.filter(fav => fav.id !== movie.id);
+      localStorage.setItem('favoriteMovie', JSON.stringify(updatedFavorites));
+      setIsFavorite(false);
+    } else {
+      favorites.push(movie);
+      localStorage.setItem('favoriteMovie', JSON.stringify(favorites));
+      setIsFavorite(true);
+    }
+  };
+
   return (
     <div className="movie-card">
       <div className="movie-poster">
@@ -13,7 +37,7 @@ function MovieCard({ movie }) {
           <span className="movie-rating">⭐ {movie.vote_average}</span>
           <span className="movie-year">{movie.release_date.substring(0, 4)}</span>
         </div>
-        <button className="favorite-button">♡ Add to Favorites</button>
+        <button className={`favorite-button ${isFavorite ? 'favorited' : ''}`} onClick={toggleFavorite}>{isFavorite ? '♥ Remove from Favorites' : '♡ Add to Favorites'}</button>
       </div>
     </div>
   );
