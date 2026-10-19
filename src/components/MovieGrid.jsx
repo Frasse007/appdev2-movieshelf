@@ -1,6 +1,6 @@
 import MovieCard from './MovieCard';
 
-function MovieGrid({ movies }) {
+function MovieGrid({ movies = [] }) {
   return (
     <div className="movie-grid">
       {movies.map(movie => (
