@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import MovieGrid from '../components/MovieGrid';
 import { getPopularMovies } from '../services/movieService';
 
-function Home() {
+function Home({ searchResults }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -14,13 +14,15 @@ setMovies(movieData);
 fetchMovies();
   }, []);
 
+  const displayMovies = searchResults || movies;
+
   return (
     <main className="main-content">
       <div className="content-header">
         <h2>Popular Movies</h2>
         <p>Discover and save your favorite films</p>
       </div>
-      <MovieGrid movies={movies} />
+      <MovieGrid movies={displayMovies} />
     </main>
   );
 };
