@@ -10,7 +10,7 @@ function MovieCard({ movie }) {
   }, [movie.id]);
 
   const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem('favoriteRecipe')) || [];
+    const favorites = JSON.parse(localStorage.getItem('favoriteMovie')) || [];
     
     if (isFavorite) {
       const updatedFavorites = favorites.filter(fav => fav.id !== movie.id);
