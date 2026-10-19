@@ -1,20 +1,32 @@
 import { useEffect, useState } from 'react';
 import MovieGrid from '../components/MovieGrid';
 import { getPopularMovies } from '../services/movieService';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 function Home({ searchResults }) {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
-const movieData = await getPopularMovies();
-setMovies(movieData);
-};
+      setLoading(true);
+      const movieData = await getPopularMovies();
+      setMovies(movieData);
+      setLoading(false);
+    };
 
-fetchMovies();
+    fetchMovies();
   }, []);
 
   const displayMovies = searchResults || movies;
+
+  if (loading) {
+    return (
+      <main className='main-content'>
+        <LoadingSpinner />
+      </main>
+    )
+  }
 
   return (
     <main className="main-content">
